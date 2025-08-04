@@ -92,7 +92,7 @@ resource "helm_release" "deepseek_neuron" {
         - name: DISABLE_TRITON
           value: "1"
         - name: HUGGING_FACE_HUB_TOKEN
-          value: "<YOUR_HF_TOKEN>"
+          #value: "<YOUR_HF_TOKEN>"
 
       resources:
         limits:
