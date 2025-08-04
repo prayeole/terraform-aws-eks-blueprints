@@ -19,6 +19,11 @@ terraform {
   #   key    = "e2e/aws-neuron-efa/terraform.tfstate"
   # }
 }
+variable "enable_deep_seek_neuron" {
+  description = "Enable DeepSeek using Neuron"
+  type        = bool
+  default     = false
+}
 
 provider "aws" {
   region = local.region

@@ -1,0 +1,72 @@
+# Default values for vllm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+namespace: deepseek
+replicaCount: 1
+containerPort: 8000
+image:
+  repository: vllm/vllm-openai
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {
+  k8s.amazonaws.com/nicConfig: multi-nic-attachment
+}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: "32"
+    memory: 100G
+  requests:
+    cpu: "16"
+    memory: 30G
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: 8000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: 8000
+  initialDelaySeconds: 60
+  periodSeconds: 5
+
+cacheVolume:
+  path: /tmp/deepseek
+
+shmVolume:
+  sizeLimit: 2Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

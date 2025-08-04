@@ -27,8 +27,15 @@ module "eks" {
     }
     kube-proxy = {}
     vpc-cni = {
-      most_recent    = true
+      most_recent    = true #must be v1.20.0 or above
       before_compute = true
+      #enable mult-nic support
+      addon_version = "v1.20.0-eksbuild.1"
+      configuration_values = jsonencode({
+        env = {
+          ENABLE_MULTI_NIC = "true"
+        }
+      })
     }
   }
 
